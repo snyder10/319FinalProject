@@ -1,0 +1,463 @@
+[
+    {
+        "name": "Apple",
+        "price": 1.59,
+        "original price": 1.79,
+        "inventory": 230,
+        "sold this week": 121,
+        "sold last week": 67,
+        "rating": 3,
+        "image": "",
+        "category": "Grocery",
+        "sub_categories": [
+            "Fruit",
+            "Sales"
+        ],
+        "trending": true
+    },
+    {
+        "name": "Banana",
+        "price": 0.31,
+        "original price": 0.31,
+        "inventory": 30,
+        "sold this week": 10,
+        "sold last week": 45,
+        "rating": 5,
+        "image": "",
+        "category": "Grocery",
+        "sub_categories": [
+            "Fruit"
+        ],
+        "trending": false
+    },
+    {
+        "name": "Orange",
+        "price": 3.62,
+        "original price": 3.62,
+        "inventory": 15,
+        "sold this week": 8,
+        "sold last week": 20,
+        "rating": 4,
+        "image": "",
+        "category": "Grocery",
+        "sub_categories": [
+            "Fruit"
+        ],
+        "trending": false
+    },
+    {
+        "name": "White Bread",
+        "price": 1.79,
+        "original price": 1.79,
+        "inventory": 230,
+        "sold this week": 75,
+        "sold last week": 67,
+        "rating": 3,
+        "image": "",
+        "category": "Grocery",
+        "sub_categories": [
+            "Bread"
+        ],
+        "trending": false
+    },
+    {
+        "name": "Canned Tuna",
+        "price": 1.99,
+        "original price": 1.99,
+        "inventory": 63,
+        "sold this week": 1,
+        "sold last week": 4,
+        "rating": 1,
+        "image": "",
+        "category": "Grocery",
+        "sub_categories": [
+            "Meat"
+        ],
+        "trending": false
+    },
+    {
+        "name": "Hot Dog Buns",
+        "price": 1.59,
+        "original price": 1.75,
+        "inventory": 120,
+        "sold this week": 75,
+        "sold last week": 106,
+        "rating": 3,
+        "image": "",
+        "category": "Grocery",
+        "sub_categories": [
+            "Bread",
+            "Sales"
+        ],
+        "trending": false
+    },
+    {
+        "name": "Whole Wheat Bread",
+        "price": 2.29,
+        "original price": 2.29,
+        "inventory": 46,
+        "sold this week": 41,
+        "sold last week": 52,
+        "rating": 4,
+        "image": "",
+        "category": "Grocery",
+        "sub_categories": [
+            "Bread"
+        ],
+        "trending": false
+    },
+    {
+        "name": "Chicken Thigh",
+        "price": 2.99,
+        "original price": 3.29,
+        "inventory": 75,
+        "sold this week": 48,
+        "sold last week": 66,
+        "rating": 5,
+        "image": "",
+        "category": "Grocery",
+        "sub_categories": [
+            "Meat",
+            "Sales"
+        ],
+        "trending": false
+    },
+    {
+        "name": "85% Lean Ground Beef",
+        "price": 4.69,
+        "original price": 4.69,
+        "inventory": 113,
+        "sold this week": 75,
+        "sold last week": 72,
+        "rating": 4,
+        "image": "",
+        "category": "Grocery",
+        "sub_categories": [
+            "Meat"
+        ],
+        "trending": false
+    },
+    {
+        "name": "Mountain Bike",
+        "price": 197.00,
+        "original price": 254.00,
+        "inventory": 6,
+        "sold this week": 10,
+        "sold last week": 6,
+        "rating": 5,
+        "image": "",
+        "category": "Sporting Goods",
+        "sub_categories": [
+            "Bikes",
+            "Sales"
+        ],
+        "trending": true
+    },
+    {
+        "name": "Exercise Bike",
+        "price": 399.00,
+        "original price": 399.00,
+        "inventory": 5,
+        "sold this week": 6,
+        "sold last week": 4,
+        "rating": 3,
+        "image": "",
+        "category": "Sporting Goods",
+        "sub_categories": [
+            "Bikes"
+        ],
+        "trending": false
+    },
+    {
+        "name": "Electric Bike",
+        "price": 432.00,
+        "original price": 519.00,
+        "inventory": 3,
+        "sold this week": 2,
+        "sold last week": 2,
+        "rating": 5,
+        "image": "",
+        "category": "Sporting Goods",
+        "sub_categories": [
+            "Bikes",
+            "Sales"
+        ],
+        "trending": false
+    },
+    {
+        "name": "Basketball",
+        "price": 10.97,
+        "original price": 14.97,
+        "inventory": 63,
+        "sold this week": 45,
+        "sold last week": 43,
+        "rating": 5,
+        "image": "",
+        "category": "Sporting Goods",
+        "sub_categories": [
+            "Sports",
+            "Sales"
+        ],
+        "trending": false
+    },
+    {
+        "name": "Basketball Hoop",
+        "price": 147.32,
+        "original price": 147.32,
+        "inventory": 2,
+        "sold this week": 3,
+        "sold last week": 2,
+        "rating": 4,
+        "image": "",
+        "category": "Sporting Goods",
+        "sub_categories": [
+            "Sports"
+        ],
+        "trending": false
+    },
+    {
+        "name": "Football",
+        "price": 9.99,
+        "original price": 9.99,
+        "inventory": 10,
+        "sold this week": 34,
+        "sold last week": 15,
+        "rating": 3,
+        "image": "",
+        "category": "Sporting Goods",
+        "sub_categories": [
+            "Sports"
+        ],
+        "trending": true
+    },
+    {
+        "name": "Football Helmet",
+        "price": 179.00,
+        "original price": 179.00,
+        "inventory": 4,
+        "sold this week": 6,
+        "sold last week": 5,
+        "rating": 5,
+        "image": "",
+        "category": "Sporting Goods",
+        "sub_categories": [
+            "Sports"
+        ],
+        "trending": false
+    },
+    {
+        "name": "Volleyball",
+        "price": 2.99,
+        "original price": 2.99,
+        "inventory": 134,
+        "sold this week": 342,
+        "sold last week": 435,
+        "rating": 4,
+        "image": "",
+        "category": "Sporting Goods",
+        "sub_categories": [
+            "Sports"
+        ],
+        "trending": false
+    },
+    {
+        "name": "Baseball",
+        "price": 2.99,
+        "original price": 2.99,
+        "inventory": 134,
+        "sold this week": 342,
+        "sold last week": 435,
+        "rating": 4,
+        "image": "",
+        "category": "Sporting Goods",
+        "sub_categories": [
+            "Sports"
+        ],
+        "trending": false
+    },
+    {
+        "name": "Baseball Bat",
+        "price": 22.99,
+        "original price": 22.99,
+        "inventory": 43,
+        "sold this week": 103,
+        "sold last week": 79,
+        "rating": 3,
+        "image": "",
+        "category": "Sporting Goods",
+        "sub_categories": [
+            "Sports"
+        ],
+        "trending": false
+    },
+    {
+        "name": "Softball",
+        "price": 3.99,
+        "original price": 3.99,
+        "inventory": 92,
+        "sold this week": 93,
+        "sold last week": 152,
+        "rating": 3,
+        "image": "",
+        "category": "Sporting Goods",
+        "sub_categories": [
+            "Sports"
+        ],
+        "trending": false
+    },
+    {
+        "name": "Softball Bat",
+        "price": 29.99,
+        "original price": 29.99,
+        "inventory": 10,
+        "sold this week": 25,
+        "sold last week": 21,
+        "rating": 4,
+        "image": "",
+        "category": "Sporting Goods",
+        "sub_categories": [
+            "Sports"
+        ],
+        "trending": false
+    },
+    {
+        "name": "Black Shoes",
+        "price": 45.99,
+        "original price": 45.99,
+        "inventory": 12,
+        "sold this week": 62,
+        "sold last week": 44,
+        "rating": 5,
+        "image": "",
+        "category": "Apparel",
+        "sub_categories": [
+            "Shoes"
+        ],
+        "trending": false
+    },
+    {
+        "name": "White Shoes",
+        "price": 45.99,
+        "original price": 45.99,
+        "inventory": 14,
+        "sold this week": 81,
+        "sold last week": 72,
+        "rating": 5,
+        "image": "",
+        "category": "Apparel",
+        "sub_categories": [
+            "Shoes"
+        ],
+        "trending": false
+    },
+    {
+        "name": "Blue Jeans",
+        "price": 25.00,
+        "original price": 37.99,
+        "inventory": 112,
+        "sold this week": 62,
+        "sold last week": 40,
+        "rating": 5,
+        "image": "",
+        "category": "Apparel",
+        "sub_categories": [
+            "Clothing",
+            "Sales"
+        ],
+        "trending": true
+    },
+    {
+        "name": "Beige Sneakers",
+        "price": 27.99,
+        "original price": 29.99,
+        "inventory": 53,
+        "sold this week": 134,
+        "sold last week": 52,
+        "rating": 3,
+        "image": "",
+        "category": "Apparel",
+        "sub_categories": [
+            "Shoes",
+            "Sales"
+        ],
+        "trending": true
+    },
+    {
+        "name": "Black Jacket",
+        "price": 35.99,
+        "original price": 35.99,
+        "inventory": 41,
+        "sold this week": 42,
+        "sold last week": 35,
+        "rating": 4,
+        "image": "",
+        "category": "Apparel",
+        "sub_categories": [
+            "Clothing"
+        ],
+        "trending": false
+    },
+    {
+        "name": "Long Sleeve Shirt",
+        "price": 21.00,
+        "original price": 24.99,
+        "inventory": 142,
+        "sold this week": 75,
+        "sold last week": 52,
+        "rating": 5,
+        "image": "",
+        "category": "Apparel",
+        "sub_categories": [
+            "Clothing",
+            "Sales"
+        ],
+        "trending": false
+    },
+    {
+        "name": "Sunglasses",
+        "price": 157.00,
+        "original price": 197.00,
+        "inventory": 72,
+        "sold this week": 100,
+        "sold last week": 63,
+        "rating": 4,
+        "image": "",
+        "category": "Apparel",
+        "sub_categories": [
+            "Accessories",
+            "Sales"
+        ],
+        "trending": true
+    },
+    {
+        "name": "Leather Hat",
+        "price": 21.49,
+        "original price": 26.00,
+        "inventory": 53,
+        "sold this week": 25,
+        "sold last week": 20,
+        "rating": 5,
+        "image": "",
+        "category": "Apparel",
+        "sub_categories": [
+            "Accessories",
+            "Sales"
+        ],
+        "trending": false
+    },
+    {
+        "name": "Wrist Watch",
+        "price": 1859.00,
+        "original price": 1859.00,
+        "inventory": 1,
+        "sold this week": 1,
+        "sold last week": 1,
+        "rating": 5,
+        "image": "",
+        "category": "Apparel",
+        "sub_categories": [
+            "Accessories"
+        ],
+        "trending": false
+    }
+]
