@@ -6,6 +6,7 @@ const path = require("path")
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use("/images", express.static("./images"))
 
 const port = "8081";
 const host = "localhost";
@@ -49,8 +50,9 @@ app.get("/products/:category", async (req, res) => {
     await client.connect();
     console.log("Node connected successfully to GET MongoDB");
     const query = {category: req.params.category};
-    if (req.body.sub){
-        query["sub_categories"] = {$all: req.body.sub};
+    if (req.query.sub && JSON.parse(req.query.sub).length !== 0){
+        query["sub_categories"] = {$all: JSON.parse(req.query.sub)};
+        console.log(query)
     }
     const results = await db
         .collection("products")
