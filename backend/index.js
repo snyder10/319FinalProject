@@ -10,7 +10,7 @@ app.use("/images", express.static("./images"))
 
 const port = "8081";
 const host = "localhost";
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 
 // MongoDB
 const url = "mongodb://127.0.0.1:27017";
@@ -27,7 +27,9 @@ app.get("/products", async (req, res) => {
         .find(query)
         .limit(100)
         .toArray();
-    console.log(results);
+    if (req.query.sort) {
+        sortElements(JSON.parse(req.query.sort), results)
+    }
     res.status(200);
     res.send(results);
 });
@@ -35,13 +37,15 @@ app.get("/products", async (req, res) => {
 app.get("/products/trending", async (req, res) => {
     await client.connect();
     console.log("Node connected successfully to GET MongoDB");
-    const query = {trending:true};
+    const query = { trending: true };
     const results = await db
         .collection("products")
         .find(query)
         .limit(100)
         .toArray();
-    console.log(results);
+    if (req.query.sort) {
+        sortElements(JSON.parse(req.query.sort), results)
+    }
     res.status(200);
     res.send(results);
 });
@@ -49,18 +53,66 @@ app.get("/products/trending", async (req, res) => {
 app.get("/products/:category", async (req, res) => {
     await client.connect();
     console.log("Node connected successfully to GET MongoDB");
-    const query = {category: req.params.category};
-    if (req.query.sub && JSON.parse(req.query.sub).length !== 0){
-        query["sub_categories"] = {$all: JSON.parse(req.query.sub)};
-        console.log(query)
+    const query = { category: req.params.category };
+    console.log(req.query)
+    if (req.query.sub && JSON.parse(req.query.sub).length !== 0) {
+        query["sub_categories"] = { $all: JSON.parse(req.query.sub) };
     }
-    const results = await db
+    let results = await db
         .collection("products")
         .find(query)
         .limit(100)
         .toArray();
+    if (req.query.sort) {
+        sortElements(JSON.parse(req.query.sort), results)
+    }
     res.status(200);
     res.send(results);
+});
+
+app.put("/cart", async (req, res) => {
+    try {
+        await client.connect();
+        console.log("Node connected successfully to PUT MongoDB");
+        console.log(req.body)
+
+        let query = { username: req.body.username, password: req.body.password};
+
+        const user = await db
+            .collection("users")
+            .findOne(query);
+
+        if (!user) {
+            res.status(401).send({ error: "You do not have permissions to perform this action" });
+            return;
+        }
+
+        let product = req.body.product;
+        let add = req.body.add
+
+        if(add){
+            user["cart"][product] = user["cart"][product] ? user["cart"][product] + 1 : 1
+        } else if (user["cart"][product]){
+            if (user["cart"][product] == 1){
+                delete user["cart"][product];
+            } else {
+                user["cart"][product] -= 1;
+            }
+        }
+
+        const updateData = { $set: { cart: user["cart"] } }
+        console.log(updateData);
+        console.log(user["cart"])
+        const results = await db
+            .collection("users")
+            .updateOne(query, updateData, {});
+        console.log(results)
+        res.status(200);
+        res.send(user["cart"]);
+    } catch (error) {
+        console.error("An error occurred:", error);
+        res.status(500).send({ error: "An internal server error occurred" });
+    }
 });
 
 app.post("/user", async (req, res) => {
@@ -68,24 +120,50 @@ app.post("/user", async (req, res) => {
         await client.connect();
         console.log("Node connected successfully to POST MongoDB");
         console.log(req.body)
-        const user = {
+        const userData = {
             "username": req.body.username,
             "password": req.body.password,
             "address": req.body.address,
             "zip": Number(req.body.zip),
-            "credit_card_num": Number(req.body.card),
+            "credit_card_num": req.body.card,
             "email": req.body.email,
             "phone": req.body.phone,
-            "employee": false
+            "city": req.body.city,
+            "state": req.body.state,
+            "employee": false,
+            "cart": req.body.cart,
         }
-        const results = await db
+
+        const original = await db
             .collection("users")
-            .insertOne(user)
-        res.status(200);
-        res.send(results);
+            .findOne({ username: req.body.username })
+
+        console.log(original);
+
+        if (original !== null) {
+            console.log("test");
+            res.status(409);
+            res.send({ error: "Username is already registered" });
+        } else {
+
+            await db
+                .collection("users")
+                .insertOne(userData)
+
+            let user = await db
+                .collection("users")
+                .findOne(userData)
+
+            if (db) {
+                user["credit_card_num"] = user["credit_card_num"].replace(/.(?=.{4,}$)/g, '*');
+                user["password"] = "********"
+                res.status(200);
+                res.send(user);
+            }
+        }
     } catch (error) {
         console.error("An error occurred:", error);
-        res.status(500).send({ error: 'An internal server error occurred' });
+        res.status(500).send({ error: "An internal server error occurred" });
     }
 });
 
@@ -101,39 +179,42 @@ app.delete("/user", async (req, res) => {
         const results = await db
             .collection("users")
             .deleteOne(user)
-        if(results["deletedCount"] > 0){
+        if (results["deletedCount"] > 0) {
             res.status(200);
             res.send(results);
         } else {
-            res.status(401).send({ error: 'You do not have permissions to perform this action' });
+            res.status(401).send({ error: "You do not have permissions to perform this action" });
         }
     } catch (error) {
         console.error("An error occurred:", error);
-        res.status(500).send({ error: 'An internal server error occurred' });
+        res.status(500).send({ error: "An internal server error occurred" });
     }
 });
 
-app.get("/user", async (req, res) => {
+app.post("/user/login", async (req, res) => {
     try {
         await client.connect();
-        console.log("Node connected successfully to GET MongoDB");
+        console.log("Node connected successfully to POST MongoDB");
+
+        const { email, password } = req.body;
         console.log(req.body)
-        const user = {
-            "username": req.body.username,
-            "password": req.body.password,
+
+        if (!email || !password) {
+            return res.status(400).send({ error: "Username and password are required" });
         }
-        const results = await db
-            .collection("users")
-            .findOne(user)
-        if(user){
-            res.status(200);
-            res.send(results);
+
+        const user = await db.collection("users").findOne({ email, password });
+
+        if (user) {
+            user["credit_card_num"] = user["credit_card_num"].replace(/.(?=.{4,}$)/g, '*');
+            user["password"] = "********"
+            res.status(200).send(user);
         } else {
-            res.status(401).send({ error: 'You do not have permissions to perform this action' });
+            res.status(401).send({ error: "Invalid credentials" });
         }
     } catch (error) {
         console.error("An error occurred:", error);
-        res.status(500).send({ error: 'An internal server error occurred' });
+        res.status(500).send({ error: "An internal server error occurred" });
     }
 });
 
@@ -141,13 +222,12 @@ app.put("/purchase", async (req, res) => {
     try {
         await client.connect();
         console.log("Node connected successfully to PUT MongoDB");
-        console.log(req.body)
         let products = Object.keys(req.body.products);
         let results = "";
         let values = Object.values(req.body.products);
-        for (let product in products){
-            const query = {name: products[product]};
-            const updateData = {$inc: {inventory: -1 * Number(values[product])}}
+        for (let product in products) {
+            const query = { name: products[product] };
+            const updateData = { $inc: { inventory: -1 * Number(values[product]) } }
             results += await db
                 .collection("products")
                 .updateOne(query, updateData, {});
@@ -157,7 +237,7 @@ app.put("/purchase", async (req, res) => {
         res.send(results);
     } catch (error) {
         console.error("An error occurred:", error);
-        res.status(500).send({ error: 'An internal server error occurred' });
+        res.status(500).send({ error: "An internal server error occurred" });
     }
 });
 
@@ -167,37 +247,63 @@ app.put("/inventory", async (req, res) => {
         console.log("Node connected successfully to PUT MongoDB");
         console.log(req.body)
 
-        let userQuery = {username: req.body.username, password: req.body.password, employee:true};
+        let userQuery = { username: req.body.username, password: req.body.password, employee: true };
 
         const status = await db
-                .collection("users")
-                .findOne(userQuery);
+            .collection("users")
+            .findOne(userQuery);
 
-        if(!status){
-            res.status(401).send({ error: 'You do not have permissions to perform this action' });
+        if (!status) {
+            res.status(401).send({ error: "You do not have permissions to perform this action" });
             return;
         }
 
-        let products = Object.keys(req.body.products);
-        let results = "";
-        let values = Object.values(req.body.products);
-        for (let product in products){
-            const query = {name: products[product]};
-            const updateData = {$set: {inventory: Number(values[product])}}
-            console.log(query)
-            console.log(updateData)
-            results += await db
-                .collection("products")
-                .updateOne(query, updateData, {});
-        }
+        let product = req.body.product;
+        let inventory = req.body.inventory
+
+        const query = { _id: new ObjectId(product) };
+        const updateData = { $set: { inventory: Number(inventory) } }
+        console.log(query)
+        console.log(updateData)
+        const results = await db
+            .collection("products")
+            .updateOne(query, updateData, {});
         res.status(200);
         res.send(results);
     } catch (error) {
         console.error("An error occurred:", error);
-        res.status(500).send({ error: 'An internal server error occurred' });
+        res.status(500).send({ error: "An internal server error occurred" });
     }
 });
 
 app.listen(port, () => {
     console.log("App listening at http://%s:%s", host, port);
 });
+
+function sortElements(sortPriority, itemsArray) {
+
+    itemsArray.sort((a, b) => {
+
+        for (let i = 0; i < sortPriority.length; i++) {
+            let prop = sortPriority[i]["priority"];
+            let first;
+            let second;
+            if (sortPriority[i]["direction"] === "ascending") {
+                first = a;
+                second = b;
+            } else {
+                first = b;
+                second = a;
+            }
+            if (first[prop] !== second[prop]) {
+                if (prop === "price" || prop === "inventory") {
+                    console.log(first)
+                    return first[prop] - second[prop];
+                } else {
+                    return first[prop].localeCompare(second[prop], undefined, { sensitivity: "base" });
+                }
+            }
+        }
+        return 0;
+    });
+}

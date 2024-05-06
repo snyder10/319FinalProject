@@ -7,7 +7,7 @@
         "sold this week": 121,
         "sold last week": 67,
         "rating": 3,
-        "image": "",
+        "image": "http://localhost:8081/images/Apple.jpg",
         "category": "Grocery",
         "sub_categories": [
             "Fruit",
@@ -23,7 +23,7 @@
         "sold this week": 10,
         "sold last week": 45,
         "rating": 5,
-        "image": "",
+        "image": "http://localhost:8081/images/Banana.jpg",
         "category": "Grocery",
         "sub_categories": [
             "Fruit"
@@ -38,7 +38,7 @@
         "sold this week": 8,
         "sold last week": 20,
         "rating": 4,
-        "image": "",
+        "image": "http://localhost:8081/images/Orange.jpg",
         "category": "Grocery",
         "sub_categories": [
             "Fruit"
@@ -53,7 +53,7 @@
         "sold this week": 75,
         "sold last week": 67,
         "rating": 3,
-        "image": "",
+        "image": "http://localhost:8081/images/White Bread.jpg",
         "category": "Grocery",
         "sub_categories": [
             "Bread"
@@ -68,7 +68,7 @@
         "sold this week": 1,
         "sold last week": 4,
         "rating": 1,
-        "image": "",
+        "image": "http://localhost:8081/images/Canned Tuna.jpg",
         "category": "Grocery",
         "sub_categories": [
             "Meat"
@@ -83,7 +83,7 @@
         "sold this week": 75,
         "sold last week": 106,
         "rating": 3,
-        "image": "",
+        "image": "http://localhost:8081/images/Hot Dog Buns.jpg",
         "category": "Grocery",
         "sub_categories": [
             "Bread",
@@ -99,7 +99,7 @@
         "sold this week": 41,
         "sold last week": 52,
         "rating": 4,
-        "image": "",
+        "image": "http://localhost:8081/images/Whole Wheat Bread.jpg",
         "category": "Grocery",
         "sub_categories": [
             "Bread"
@@ -114,7 +114,7 @@
         "sold this week": 48,
         "sold last week": 66,
         "rating": 5,
-        "image": "",
+        "image": "http://localhost:8081/images/Chicken Thigh.jpg",
         "category": "Grocery",
         "sub_categories": [
             "Meat",
@@ -123,14 +123,14 @@
         "trending": false
     },
     {
-        "name": "85% Lean Ground Beef",
+        "name": "Ground Beef",
         "price": 4.69,
         "original price": 4.69,
         "inventory": 113,
         "sold this week": 75,
         "sold last week": 72,
         "rating": 4,
-        "image": "",
+        "image": "http://localhost:8081/images/Ground Beef.jpg",
         "category": "Grocery",
         "sub_categories": [
             "Meat"
@@ -139,13 +139,13 @@
     },
     {
         "name": "Mountain Bike",
-        "price": 197.00,
-        "original price": 254.00,
+        "price": 197.0,
+        "original price": 254.0,
         "inventory": 6,
         "sold this week": 10,
         "sold last week": 6,
         "rating": 5,
-        "image": "",
+        "image": "http://localhost:8081/images/Mountain Bike.jpg",
         "category": "Sporting Goods",
         "sub_categories": [
             "Bikes",
@@ -155,13 +155,13 @@
     },
     {
         "name": "Exercise Bike",
-        "price": 399.00,
-        "original price": 399.00,
+        "price": 399.0,
+        "original price": 399.0,
         "inventory": 5,
         "sold this week": 6,
         "sold last week": 4,
         "rating": 3,
-        "image": "",
+        "image": "http://localhost:8081/images/Exercise Bike.jpg",
         "category": "Sporting Goods",
         "sub_categories": [
             "Bikes"
@@ -170,13 +170,13 @@
     },
     {
         "name": "Electric Bike",
-        "price": 432.00,
-        "original price": 519.00,
+        "price": 432.0,
+        "original price": 519.0,
         "inventory": 3,
         "sold this week": 2,
         "sold last week": 2,
         "rating": 5,
-        "image": "",
+        "image": "http://localhost:8081/images/Electric Bike.jpg",
         "category": "Sporting Goods",
         "sub_categories": [
             "Bikes",
@@ -192,7 +192,7 @@
         "sold this week": 45,
         "sold last week": 43,
         "rating": 5,
-        "image": "",
+        "image": "http://localhost:8081/images/Basketball.jpg",
         "category": "Sporting Goods",
         "sub_categories": [
             "Sports",
@@ -208,7 +208,7 @@
         "sold this week": 3,
         "sold last week": 2,
         "rating": 4,
-        "image": "",
+        "image": "http://localhost:8081/images/Basketball Hoop.jpg",
         "category": "Sporting Goods",
         "sub_categories": [
             "Sports"
@@ -223,7 +223,7 @@
         "sold this week": 34,
         "sold last week": 15,
         "rating": 3,
-        "image": "",
+        "image": "http://localhost:8081/images/Football.jpg",
         "category": "Sporting Goods",
         "sub_categories": [
             "Sports"
@@ -232,13 +232,13 @@
     },
     {
         "name": "Football Helmet",
-        "price": 179.00,
-        "original price": 179.00,
+        "price": 179.0,
+        "original price": 179.0,
         "inventory": 4,
         "sold this week": 6,
         "sold last week": 5,
         "rating": 5,
-        "image": "",
+        "image": "http://localhost:8081/images/Football Helmet.jpg",
         "category": "Sporting Goods",
         "sub_categories": [
             "Sports"
@@ -253,7 +253,7 @@
         "sold this week": 342,
         "sold last week": 435,
         "rating": 4,
-        "image": "",
+        "image": "http://localhost:8081/images/Volleyball.jpg",
         "category": "Sporting Goods",
         "sub_categories": [
             "Sports"
@@ -268,7 +268,7 @@
         "sold this week": 342,
         "sold last week": 435,
         "rating": 4,
-        "image": "",
+        "image": "http://localhost:8081/images/Baseball.jpg",
         "category": "Sporting Goods",
         "sub_categories": [
             "Sports"
@@ -283,7 +283,7 @@
         "sold this week": 103,
         "sold last week": 79,
         "rating": 3,
-        "image": "",
+        "image": "http://localhost:8081/images/Baseball Bat.jpg",
         "category": "Sporting Goods",
         "sub_categories": [
             "Sports"
@@ -298,7 +298,7 @@
         "sold this week": 93,
         "sold last week": 152,
         "rating": 3,
-        "image": "",
+        "image": "http://localhost:8081/images/Softball.jpg",
         "category": "Sporting Goods",
         "sub_categories": [
             "Sports"
@@ -313,7 +313,7 @@
         "sold this week": 25,
         "sold last week": 21,
         "rating": 4,
-        "image": "",
+        "image": "http://localhost:8081/images/Softball Bat.jpg",
         "category": "Sporting Goods",
         "sub_categories": [
             "Sports"
@@ -328,7 +328,7 @@
         "sold this week": 62,
         "sold last week": 44,
         "rating": 5,
-        "image": "",
+        "image": "http://localhost:8081/images/Black Shoes.jpg",
         "category": "Apparel",
         "sub_categories": [
             "Shoes"
@@ -343,7 +343,7 @@
         "sold this week": 81,
         "sold last week": 72,
         "rating": 5,
-        "image": "",
+        "image": "http://localhost:8081/images/White Shoes.jpg",
         "category": "Apparel",
         "sub_categories": [
             "Shoes"
@@ -352,13 +352,13 @@
     },
     {
         "name": "Blue Jeans",
-        "price": 25.00,
+        "price": 25.0,
         "original price": 37.99,
         "inventory": 112,
         "sold this week": 62,
         "sold last week": 40,
         "rating": 5,
-        "image": "",
+        "image": "http://localhost:8081/images/Blue Jeans.jpg",
         "category": "Apparel",
         "sub_categories": [
             "Clothing",
@@ -374,7 +374,7 @@
         "sold this week": 134,
         "sold last week": 52,
         "rating": 3,
-        "image": "",
+        "image": "http://localhost:8081/images/Beige Sneakers.jpg",
         "category": "Apparel",
         "sub_categories": [
             "Shoes",
@@ -390,7 +390,7 @@
         "sold this week": 42,
         "sold last week": 35,
         "rating": 4,
-        "image": "",
+        "image": "http://localhost:8081/images/Black Jacket.jpg",
         "category": "Apparel",
         "sub_categories": [
             "Clothing"
@@ -399,13 +399,13 @@
     },
     {
         "name": "Long Sleeve Shirt",
-        "price": 21.00,
+        "price": 21.0,
         "original price": 24.99,
         "inventory": 142,
         "sold this week": 75,
         "sold last week": 52,
         "rating": 5,
-        "image": "",
+        "image": "http://localhost:8081/images/Long Sleeve Shirt.jpg",
         "category": "Apparel",
         "sub_categories": [
             "Clothing",
@@ -415,13 +415,13 @@
     },
     {
         "name": "Sunglasses",
-        "price": 157.00,
-        "original price": 197.00,
+        "price": 157.0,
+        "original price": 197.0,
         "inventory": 72,
         "sold this week": 100,
         "sold last week": 63,
         "rating": 4,
-        "image": "",
+        "image": "http://localhost:8081/images/Sunglasses.jpg",
         "category": "Apparel",
         "sub_categories": [
             "Accessories",
@@ -432,12 +432,12 @@
     {
         "name": "Leather Hat",
         "price": 21.49,
-        "original price": 26.00,
+        "original price": 26.0,
         "inventory": 53,
         "sold this week": 25,
         "sold last week": 20,
         "rating": 5,
-        "image": "",
+        "image": "http://localhost:8081/images/Leather Hat.jpg",
         "category": "Apparel",
         "sub_categories": [
             "Accessories",
@@ -447,13 +447,13 @@
     },
     {
         "name": "Wrist Watch",
-        "price": 1859.00,
-        "original price": 1859.00,
+        "price": 1859.0,
+        "original price": 1859.0,
         "inventory": 1,
         "sold this week": 1,
         "sold last week": 1,
         "rating": 5,
-        "image": "",
+        "image": "http://localhost:8081/images/Wrist Watch.jpg",
         "category": "Apparel",
         "sub_categories": [
             "Accessories"
