@@ -21,7 +21,11 @@ const db = client.db(dbName);
 app.get("/products", async (req, res) => {
     await client.connect();
     console.log("Node connected successfully to GET MongoDB");
-    const query = {};
+    let query = {};
+    if (req.query.names) {
+        query["name"] = { $in: JSON.parse(req.query.names) }
+        console.log(query)
+    }
     const results = await db
         .collection("products")
         .find(query)
@@ -76,7 +80,7 @@ app.put("/cart", async (req, res) => {
         console.log("Node connected successfully to PUT MongoDB");
         console.log(req.body)
 
-        let query = { username: req.body.username, password: req.body.password};
+        let query = { username: req.body.username, password: req.body.password };
 
         const user = await db
             .collection("users")
@@ -90,10 +94,10 @@ app.put("/cart", async (req, res) => {
         let product = req.body.product;
         let add = req.body.add
 
-        if(add){
+        if (add) {
             user["cart"][product] = user["cart"][product] ? user["cart"][product] + 1 : 1
-        } else if (user["cart"][product]){
-            if (user["cart"][product] == 1){
+        } else if (user["cart"][product]) {
+            if (user["cart"][product] == 1) {
                 delete user["cart"][product];
             } else {
                 user["cart"][product] -= 1;
@@ -136,14 +140,14 @@ app.post("/user", async (req, res) => {
 
         const original = await db
             .collection("users")
-            .findOne({ username: req.body.username })
+            .findOne({ email: req.body.email })
 
         console.log(original);
 
         if (original !== null) {
             console.log("test");
             res.status(409);
-            res.send({ error: "Username is already registered" });
+            res.send({ error: "Email is already registered" });
         } else {
 
             await db
@@ -222,9 +226,49 @@ app.put("/purchase", async (req, res) => {
     try {
         await client.connect();
         console.log("Node connected successfully to PUT MongoDB");
-        let products = Object.keys(req.body.products);
+        console.log(req.body.card)
         let results = "";
-        let values = Object.values(req.body.products);
+        let card;
+        let products;
+        let values;
+
+        if (req.body.email && req.body.password) {
+            const user = await db.collection("users").findOne({ email: req.body.email, password: req.body.password });
+
+            if (user === null) {
+                res.status(404);
+                res.send({ error: "User not found" });
+                return;
+            }
+
+            products = Object.keys(user["cart"])
+            values = Object.values(user["cart"])
+            card = user["credit_card_num"]
+        } else if (req.body.card) {
+            card = req.body.card
+            products = Object.keys(req.body.products);
+            console.log(products);
+            values = Object.values(req.body.products);
+            console.log(values);
+        } else {
+            console.log("here");
+            res.status(400).send({ error: "Too little information in the body" });
+            return;
+        }
+
+
+        for (let product in products) {
+            let query = { name: products[product] }
+            const backendProduct = await db
+                .collection("products")
+                .findOne(query)
+            if (backendProduct.inventory < values[product]) {
+                res.status(409).send({ error: "Not enough products available" });
+                return;
+            }
+
+        }
+
         for (let product in products) {
             const query = { name: products[product] };
             const updateData = { $inc: { inventory: -1 * Number(values[product]) } }
@@ -233,6 +277,13 @@ app.put("/purchase", async (req, res) => {
                 .updateOne(query, updateData, {});
         }
 
+        console.log(`successfully charged purchase to ${card}`)
+
+        if (req.body.email && req.body.password) {
+            await db
+                .collection("users")
+                .updateOne({ email: req.body.email, password: req.body.password }, { $set: { "cart": {} } })
+        }
         res.status(200);
         res.send(results);
     } catch (error) {
@@ -247,7 +298,7 @@ app.put("/inventory", async (req, res) => {
         console.log("Node connected successfully to PUT MongoDB");
         console.log(req.body)
 
-        let userQuery = { username: req.body.username, password: req.body.password, employee: true };
+        let userQuery = { email: req.body.email, password: req.body.password, employee: true };
 
         const status = await db
             .collection("users")

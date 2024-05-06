@@ -79,7 +79,7 @@ const App = () => {
       console.log(event.target.id);
       const formData = new FormData(event.target);
       let data = {
-        "username": user.username,
+        "email": user.email,
         "password": user.password,
         "inventory": formData.get("inventory"),
         "product": event.target.id
@@ -599,7 +599,7 @@ const App = () => {
                   </div>
                   <div>
                     <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                    <input type="password" name="password" id="password" placeholder="********" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required pattern="^.{8,64}$" />
+                    <input type="password" name="password" id="password" placeholder="xxxxxxxx" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required pattern="^.{8,64}$" />
                   </div>
                   <div>
                     <label htmlFor="address" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
@@ -607,7 +607,7 @@ const App = () => {
                   </div>
                   <div>
                     <label htmlFor="zip" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ZIP Code</label>
-                    <input type="zip" name="zip" id="zip" placeholder="123 E Home St" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required pattern="^[0-9]{5}$" />
+                    <input type="zip" name="zip" id="zip" placeholder="12345" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required pattern="^[0-9]{5}$" />
                   </div>
                   <div>
                     <label htmlFor="city" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City</label>
@@ -618,12 +618,12 @@ const App = () => {
                     <input type="state" name="state" id="state" placeholder="IA" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required pattern="^[A-Z]{2}$" />
                   </div>
                   <div>
-                    <label htmlFor="credit card number" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Credit Card Number</label>
-                    <input type="credit card number" name="credit card number" id="credit card number" placeholder="****************" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required pattern="^[0-9]{16}$" />
+                    <label htmlFor="card-number-input" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Credit Card Number</label>
+                    <input type="text" name="card-number-input" id="card-number-input" placeholder="xxxx-xxxx-xxxx-xxxx" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required pattern="^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$" />
                   </div>
                   <div>
                     <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
-                    <input type="phone" name="phone" id="phone" placeholder="123-456-7890" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required pattern="^[0-9]{3}-[0-9]{3}-[0-9]{4}$" />
+                    <input type="phone" name="phone" id="phone" placeholder="xxx-xxx-xxxx" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required pattern="^[0-9]{3}-[0-9]{3}-[0-9]{4}$" />
                   </div>
                   {
                     invalidUsername &&
@@ -644,6 +644,226 @@ const App = () => {
     );
   };
 
+  const CartPage = () => {
+    useEffect(() => {
+      const getProducts = async () => {
+        const names = Object.keys(cart)
+        const products = await fetchProducts(`?sort=${JSON.stringify(sortingOptions[sort])}&names=${JSON.stringify(names)}`);
+        setProducts(products);
+      };
+
+      if (loadPage) {
+        getProducts();
+        setLoadPage(false)
+      }
+    }, []);
+
+    const RenderCart = () => {
+      console.log(products)
+
+      function removeFromCart(item) {
+        if (user.username && user.password) {
+          let data = {
+            "username": user.username,
+            "password": user.password,
+            "product": item,
+            "add": false
+          }
+          fetch(`http://localhost:8081/cart`, {
+            method: "PUT",
+            body: JSON.stringify(data),
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }).then(response => {
+            if (response.status != 200) {
+              return;
+            }
+            return response.json();
+          })
+            .then(response => {
+              if (response) {
+                setCart(response)
+              } else {
+                alert("Failure updating cart")
+              }
+            })
+        } else {
+          setCart(prevCart => {
+            const newCart = { ...prevCart };
+            if (newCart[item] > 1) {
+              newCart[item] -= 1;
+            } else {
+              delete newCart[item];
+            }
+            return newCart;
+          });
+        }
+      }
+
+      function addToCart(item) {
+        if (user.username && user.password) {
+          let data = {
+            "username": user.username,
+            "password": user.password,
+            "product": item,
+            "add": true
+          }
+          fetch(`http://localhost:8081/cart`, {
+            method: "PUT",
+            body: JSON.stringify(data),
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }).then(response => {
+            if (response.status != 200) {
+              return;
+            }
+            return response.json();
+          })
+            .then(response => {
+              if (response) {
+                setCart(response)
+              } else {
+                alert("Failure updating cart")
+              }
+            })
+        } else {
+          setCart(prevCart => ({ ...prevCart, [item]: (prevCart[item] || 0) + 1 }));
+        }
+      }
+
+      return (
+        <div className="w-3/6 grid grid-cols-1 divide-y justify-items-center justify-center float-left">
+          <section id="Projects" className="w-4/6 grid grid-cols-1 xl:grid-cols-2 justify-items-center justify-center content-center gap-y-5 mt-10 mb-5">
+            {products.map((product, index) => (
+              <div key={index} className="w-fit bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl text-center content-center justify-items-center justify-center">
+                <div className="px-4 py-3 w-56 text-center content-center justify-items-center justify-center">
+                  <p className="text-lg font-bold text-black truncate capitalize">{product.name}</p>
+                  <img src={product.image} alt="Product" className="h-16 w-16 object-cover rounded-t-xl" />
+                  <div className="flex w-full items-center float-right">
+                    <p className="text-lg font-semibold text-black cursor-auto my-3">${product.price}</p>
+                    <del>
+                      <p className={product.price != product["original price"] ? "text-sm text-gray-600 cursor-auto ml-2" : "hidden"}>${product["original price"]}</p>
+                    </del>
+                  </div>
+                  <div className="flex justify-between items-center w-full">
+                    <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => removeFromCart(product.name)}>-</button>
+                    <span className="border-solid select-none text-lg font-bold text-black">{cart[product.name] ? cart[product.name] : 0}</span>
+                    <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => addToCart(product.name)} >+</button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </section>
+          <div className="justify-items-center justify-center w-4/6 flex content-center text-center text-lg font-bold text-black capitalize">
+            Total: ${parseFloat(Object.values(products).reduce((acc, product) => acc + product.price * cart[product.name], 0)).toFixed(2)}
+          </div>
+        </div>);
+    }
+
+    function submitCartWithAccount() {
+      let data = {
+        "email": user.email,
+        "password": user.password
+      }
+      fetch(`http://localhost:8081/purchase`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(response => {
+        if (response.status != 200) {
+          return;
+        }
+        return response;
+      })
+        .then(response => {
+          if (response) {
+            alert("Purchase successfully completed.")
+            setCart({});
+            changePage("Home")
+          } else {
+            alert("Failure completing purchase.")
+          }
+        })
+    }
+
+    function submitCartWithCard(event) {
+      event.preventDefault();
+      let formData = new FormData(event.target)
+      let data = {
+        "products": cart,
+        "card": formData.get("card-number-input")
+      }
+      fetch(`http://localhost:8081/purchase`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(response => {
+        if (response.status != 200) {
+          return;
+        }
+        return response;
+      })
+        .then(response => {
+          if (response) {
+            alert("Purchase successfully completed.")
+            setCart({});
+            changePage("Home")
+          } else {
+            alert("Failure completing purchase.")
+          }
+        })
+    }
+
+    const RenderPayment = () => {
+      return (
+        <div className="w-3/6 h-full justify-items-center justify-center float-right mt-10 mb-5">
+          {
+            user.credit_card_num ?
+              <div className="text-center justify-items-center justify-center">
+                <div className="text-lg font-bold text-black capitalize">You are currently signed in and have your payment information stored. No further information is needed.</div>
+                <button type="button" onClick={() => submitCartWithAccount()} class="mt-10 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Confirm Purchase</button>
+              </div>
+              :
+              <div className="text-center justify-items-center justify-center">
+
+                <form onSubmit={submitCartWithCard} class="w-full rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6 lg:max-w-xl lg:p-8">
+                  <div class="mb-6 grid grid-cols-2 gap-4">
+                    <div class="col-span-2 sm:col-span-1">
+                      <label for="name" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"> Name </label>
+                      <input type="text" id="name" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="Bonnie Green" required />
+                    </div>
+
+                    <div class="col-span-2 sm:col-span-1">
+                      <label for="card-number-input" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"> Card Number </label>
+                      <input type="text" id="card-number-input" name="card-number-input" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pe-10 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="xxxx-xxxx-xxxx-xxxx" pattern="^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$" required />
+                    </div>
+                  </div>
+
+                  <button type="submit" class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Pay Now</button>
+                </form>
+
+
+              </div>
+          }
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <Navbar />
+        <RenderCart />
+        <RenderPayment />
+      </div>
+    );
+  }
+
   if (page === "Login") {
     return <LoginPage />
   } else if (page === "Grocery") {
@@ -656,6 +876,8 @@ const App = () => {
     return <UserPage />
   } else if (page === "Create Account") {
     return <AccountCreationPage />
+  } else if (page === "Cart") {
+    return <CartPage />
   } else {
     return <HomePage />
   }
