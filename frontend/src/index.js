@@ -28,6 +28,7 @@ const App = () => {
   }
 
   const [products, setProducts] = useState([]);
+  const [trending, setTrending] = useState([]);
   const [page, setPage] = useState("Home");
   const [categories, setCategories] = useState([])
   const [sort, setSort] = useState("Price: Low to High")
@@ -46,16 +47,12 @@ const App = () => {
     event.preventDefault();
     let category = event.target.textContent;
     if (categories.includes(category)) {
-      console.log("Removing " + category);
-      console.log(categories);
       setCategories(oldArray => {
         return oldArray.filter(oldCategory => oldCategory !== category);
       });
       setActiveButtons(prevState => ({ ...prevState, [category]: false }))
       setLoadPage(true);
     } else {
-      console.log("Adding " + category);
-      console.log(categories);
       setCategories(oldArray => [...oldArray, category]);
       event.target.className = "";
       setActiveButtons(prevState => ({ ...prevState, [category]: true }))
@@ -72,11 +69,9 @@ const App = () => {
     setLoadPage(true);
   }
 
-  const RenderProducts = () => {
-    console.log(products)
+  function RenderProducts({productArray}) {
     function submitUpdate(event) {
       event.preventDefault();
-      console.log(event.target.id);
       const formData = new FormData(event.target);
       let data = {
         "email": user.email,
@@ -91,7 +86,7 @@ const App = () => {
           "Content-Type": "application/json"
         }
       }).then(response => {
-        if (response.status != 200) {
+        if (response.status !== 200) {
           return;
         }
         return response;
@@ -121,7 +116,7 @@ const App = () => {
             "Content-Type": "application/json"
           }
         }).then(response => {
-          if (response.status != 200) {
+          if (response.status !== 200) {
             return;
           }
           return response.json();
@@ -161,7 +156,7 @@ const App = () => {
             "Content-Type": "application/json"
           }
         }).then(response => {
-          if (response.status != 200) {
+          if (response.status !== 200) {
             return;
           }
           return response.json();
@@ -180,7 +175,7 @@ const App = () => {
 
     return (
       <section id="Projects" className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
-        {products.map((product, index) => (
+        {productArray.map((product, index) => (
           <div key={index} className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
             <img src={product.image}
               alt="Product" className="h-72 w-72 object-cover rounded-t-xl" />
@@ -189,7 +184,7 @@ const App = () => {
               <div className="flex items-center">
                 <p className="text-lg font-semibold text-black cursor-auto my-3">${product.price}</p>
                 <del>
-                  <p className={product.price != product["original price"] ? "text-sm text-gray-600 cursor-auto ml-2" : "hidden"}>${product["original price"]}</p>
+                  <p className={product.price !== product["original price"] ? "text-sm text-gray-600 cursor-auto ml-2" : "hidden"}>${product["original price"]}</p>
                 </del>
               </div>
               <p className="text-lg font-semibold text-black cursor-auto my-3">Inventory: {product.inventory}</p>
@@ -212,7 +207,7 @@ const App = () => {
 
   const Navbar = () => {
     return (
-      <nav className="bg-white border-gray-200 dark:bg-gray-900">
+      <nav className="sticky top-0 bg-white border-gray-200 dark:bg-gray-900 z-50">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <p className="flex items-center space-x-3 rtl:space-x-reverse">
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Supershop</span>
@@ -226,32 +221,32 @@ const App = () => {
           <div className="hidden w-full md:block md:w-auto" id="navbar-default">
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               <li>
-                <button onClick={() => changePage("Home")} className={page == "Home" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"}>Home</button>
+                <button onClick={() => changePage("Home")} className={page === "Home" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"}>Home</button>
               </li>
               <li>
-                <button onClick={() => changePage("Grocery")} className={page == "Grocery" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"}>Grocery</button>
+                <button onClick={() => changePage("Grocery")} className={page === "Grocery" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"}>Grocery</button>
               </li>
               <li>
-                <button onClick={() => changePage("Sporting Goods")} className={page == "Sporting Goods" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"}>Sporting Goods</button>
+                <button onClick={() => changePage("Sporting Goods")} className={page === "Sporting Goods" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"}>Sporting Goods</button>
               </li>
               <li>
-                <button onClick={() => changePage("Apparel")} className={page == "Apparel" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"}>Apparel</button>
+                <button onClick={() => changePage("Apparel")} className={page === "Apparel" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"}>Apparel</button>
               </li>
               <li>
-                <button onClick={() => changePage("About")} className={page == "About" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"}>About</button>
+                <button onClick={() => changePage("About")} className={page === "About" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"}>About</button>
               </li>
               {
                 user.username ?
                   <li>
-                    <button onClick={() => changePage("User")} className={page == "User" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"}>{user.username}</button>
+                    <button onClick={() => changePage("User")} className={page === "User" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"}>{user.username}</button>
                   </li>
                   :
                   <li>
-                    <button onClick={() => changePage("Login")} className={page == "Login" || page == "Create Account" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"}>Login</button>
+                    <button onClick={() => changePage("Login")} className={page === "Login" || page === "Create Account" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"}>Login</button>
                   </li>
               }
               <li>
-                <button onClick={() => changePage("Cart")} className={page == "Cart" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"}>Cart</button>
+                <button onClick={() => changePage("Cart")} className={page === "Cart" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"}>Cart</button>
               </li>
             </ul>
           </div>
@@ -307,7 +302,7 @@ const App = () => {
         </ul>
       </div>
       <FilterSelect />
-      <RenderProducts />
+      <RenderProducts productArray={products} />
     </div>
     );
   }
@@ -328,14 +323,14 @@ const App = () => {
       <div className="w-64 h-full bg-gray-800 text-white hidden md:block float-left text-left">
         <div className="p-5 float w-full">Categories</div>
         <ul className="space-y-2 w-full">
-          <li><button onClick={addCategory} className={activeButtons["Fruit"] ? "text-left block p-10 hover:bg-gray-500 w-full bg-slate-950" : "text-left block p-10 hover:bg-gray-700 w-full"}>Fruit</button></li>
-          <li><button onClick={addCategory} className={activeButtons["Meat"] ? "text-left block p-10 hover:bg-gray-500 w-full bg-slate-950" : "text-left block p-10 hover:bg-gray-700 w-full"}>Meat</button></li>
-          <li><button onClick={addCategory} className={activeButtons["Bread"] ? "text-left block p-10 hover:bg-gray-500 w-full bg-slate-950" : "text-left block p-10 hover:bg-gray-700 w-full"}>Bread</button></li>
+          <li><button onClick={addCategory} className={activeButtons["Shoes"] ? "text-left block p-10 hover:bg-gray-500 w-full bg-slate-950" : "text-left block p-10 hover:bg-gray-700 w-full"}>Shoes</button></li>
+          <li><button onClick={addCategory} className={activeButtons["Clothing"] ? "text-left block p-10 hover:bg-gray-500 w-full bg-slate-950" : "text-left block p-10 hover:bg-gray-700 w-full"}>Clothing</button></li>
+          <li><button onClick={addCategory} className={activeButtons["Accessories"] ? "text-left block p-10 hover:bg-gray-500 w-full bg-slate-950" : "text-left block p-10 hover:bg-gray-700 w-full"}>Accessories</button></li>
           <li><button onClick={addCategory} className={activeButtons["Sales"] ? "text-left block p-10 hover:bg-gray-500 w-full bg-slate-950" : "text-left block p-10 hover:bg-gray-700 w-full"}>Sales</button></li>
         </ul>
       </div>
       <FilterSelect />
-      <RenderProducts />
+      <RenderProducts productArray={products} />
     </div>
     );
   }
@@ -362,7 +357,7 @@ const App = () => {
         </ul>
       </div>
       <FilterSelect />
-      <RenderProducts />
+      <RenderProducts productArray={products} />
     </div>
     );
   }
@@ -370,8 +365,10 @@ const App = () => {
   const HomePage = () => {
     useEffect(() => {
       const getProducts = async () => {
-        const products = await fetchProducts(`?sort=${JSON.stringify(sortingOptions[sort])}`);
+        const products = await fetchProducts(`?sub=${JSON.stringify(["Sales"])}&sort=${JSON.stringify(sortingOptions[sort])}`);
         setProducts(products);
+        const trendingProducts = await fetchProducts(`/trending?sort=${JSON.stringify(sortingOptions[sort])}`);
+        setTrending(trendingProducts);
       };
 
       if (loadPage) {
@@ -382,7 +379,13 @@ const App = () => {
     return (<div>
       <Navbar />
       <FilterSelect />
-      <RenderProducts />
+      <div className="flex grid grid-cols-1 items-center text-center">
+      <p className="justify-items-center justify-center content-center text-center text-3xl font-bold text-black capitalize mt-20">On Sale</p>
+      <RenderProducts productArray={products} />
+      <p className="justify-items-center justify-center content-center text-center text-3xl font-bold text-black capitalize mt-20">Trending</p>
+      <RenderProducts productArray={trending} />
+      </div>
+      {console.log(trending)};
     </div>);
   }
 
@@ -405,7 +408,7 @@ const App = () => {
           "Content-Type": "application/json"
         }
       }).then(response => {
-        if (response.status != 200) {
+        if (response.status !== 200) {
           return;
         }
         return response.json();
@@ -472,7 +475,7 @@ const App = () => {
         "Content-Type": "application/json"
       }
     }).then(response => {
-      if (response.status != 200) {
+      if (response.status !== 200) {
         return;
       }
       return response.json();
@@ -544,7 +547,6 @@ const App = () => {
       const formData = new FormData(event.target);
       let data = {
         "username": formData.get("username"),
-        "email": formData.get("email"),
         "password": formData.get("password"),
         "address": formData.get("address"),
         "zip": formData.get("zip"),
@@ -562,7 +564,7 @@ const App = () => {
           "Content-Type": "application/json"
         }
       }).then(response => {
-        if (response.status != 200) {
+        if (response.status !== 200) {
           return;
         }
         return response.json();
@@ -659,8 +661,6 @@ const App = () => {
     }, []);
 
     const RenderCart = () => {
-      console.log(products)
-
       function removeFromCart(item) {
         if (user.username && user.password) {
           let data = {
@@ -676,7 +676,7 @@ const App = () => {
               "Content-Type": "application/json"
             }
           }).then(response => {
-            if (response.status != 200) {
+            if (response.status !== 200) {
               return;
             }
             return response.json();
@@ -716,7 +716,7 @@ const App = () => {
               "Content-Type": "application/json"
             }
           }).then(response => {
-            if (response.status != 200) {
+            if (response.status !== 200) {
               return;
             }
             return response.json();
@@ -734,7 +734,7 @@ const App = () => {
       }
 
       return (
-        <div className="w-3/6 grid grid-cols-1 divide-y justify-items-center justify-center float-left">
+        <div className="w-3/6 grid grid-cols-1 divide-y justify-items-center justify-center flex-1">
           <section id="Projects" className="w-4/6 grid grid-cols-1 xl:grid-cols-2 justify-items-center justify-center content-center gap-y-5 mt-10 mb-5">
             {products.map((product, index) => (
               <div key={index} className="w-fit bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl text-center content-center justify-items-center justify-center">
@@ -744,7 +744,7 @@ const App = () => {
                   <div className="flex w-full items-center float-right">
                     <p className="text-lg font-semibold text-black cursor-auto my-3">${product.price}</p>
                     <del>
-                      <p className={product.price != product["original price"] ? "text-sm text-gray-600 cursor-auto ml-2" : "hidden"}>${product["original price"]}</p>
+                      <p className={product.price !== product["original price"] ? "text-sm text-gray-600 cursor-auto ml-2" : "hidden"}>${product["original price"]}</p>
                     </del>
                   </div>
                   <div className="flex justify-between items-center w-full">
@@ -774,7 +774,7 @@ const App = () => {
           "Content-Type": "application/json"
         }
       }).then(response => {
-        if (response.status != 200) {
+        if (response.status !== 200) {
           return;
         }
         return response;
@@ -804,7 +804,7 @@ const App = () => {
           "Content-Type": "application/json"
         }
       }).then(response => {
-        if (response.status != 200) {
+        if (response.status !== 200) {
           return;
         }
         return response;
@@ -822,33 +822,31 @@ const App = () => {
 
     const RenderPayment = () => {
       return (
-        <div className="w-3/6 h-full justify-items-center justify-center float-right mt-10 mb-5">
+        <div className="flex-1 w-3/6 justify-items-center justify-center float-right mt-10 mb-5">
           {
             user.credit_card_num ?
               <div className="text-center justify-items-center justify-center">
                 <div className="text-lg font-bold text-black capitalize">You are currently signed in and have your payment information stored. No further information is needed.</div>
-                <button type="button" onClick={() => submitCartWithAccount()} class="mt-10 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Confirm Purchase</button>
+                <button type="button" onClick={() => submitCartWithAccount()} className="mt-10 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Confirm Purchase</button>
               </div>
               :
               <div className="text-center justify-items-center justify-center">
 
-                <form onSubmit={submitCartWithCard} class="w-full rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6 lg:max-w-xl lg:p-8">
-                  <div class="mb-6 grid grid-cols-2 gap-4">
-                    <div class="col-span-2 sm:col-span-1">
-                      <label for="name" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"> Name </label>
-                      <input type="text" id="name" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="Bonnie Green" required />
+                <form onSubmit={submitCartWithCard} className="w-full rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6 lg:max-w-xl lg:p-8">
+                  <div className="mb-6 grid grid-cols-2 gap-4">
+                    <div className="col-span-2 sm:col-span-1">
+                      <label htmlFor="name" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"> Name </label>
+                      <input type="text" id="name" className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="Your Name Here" required />
                     </div>
 
-                    <div class="col-span-2 sm:col-span-1">
-                      <label for="card-number-input" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"> Card Number </label>
-                      <input type="text" id="card-number-input" name="card-number-input" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pe-10 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="xxxx-xxxx-xxxx-xxxx" pattern="^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$" required />
+                    <div className="col-span-2 sm:col-span-1">
+                      <label htmlFor="card-number-input" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"> Card Number </label>
+                      <input type="text" id="card-number-input" name="card-number-input" className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pe-10 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="xxxx-xxxx-xxxx-xxxx" pattern="^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$" required />
                     </div>
                   </div>
 
-                  <button type="submit" class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Pay Now</button>
+                  <button type="submit" className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Pay Now</button>
                 </form>
-
-
               </div>
           }
         </div>
@@ -858,8 +856,31 @@ const App = () => {
     return (
       <div>
         <Navbar />
-        <RenderCart />
-        <RenderPayment />
+        <div className="flex">
+          <RenderCart />
+          <RenderPayment />
+        </div>
+      </div>
+    );
+  }
+
+  const AboutPage = () => {
+    return (
+      <div>
+        <Navbar />
+        <div className="flex flex-col justify-center items-center">
+            <div className="ml-5 p-10 xl:basis-4/5 flex flex-col justify-center items-center">
+              <h2 className="text-3xl font-extrabold tracking-tight text-gray-600 category-title">Course Information</h2>
+              <h3 className="text-lg text-gray-700"><b>Course:</b> SE/ComS319 Construction of User Interfaces, Spring 2024</h3>
+              <h3 className="text-lg text-gray-700"><b>Date:</b> May 6, 2024</h3>
+              <h2 className="text-3xl font-extrabold tracking-tight text-gray-600 category-title mt-10">Students</h2>
+              <h3 className="text-lg text-gray-700"><b>Andrew Snyder:</b> snyder10@iastate.edu</h3>
+              <h3 className="text-lg text-gray-700"><b>Eli Ripperda:</b> ripperda@iastate.edu</h3>
+              <h2 className="text-3xl font-extrabold tracking-tight text-gray-600 category-title mt-10">Professors</h2>
+              <h3 className="text-lg text-gray-700"><b>Dr. Abraham N. Aldaco Gastelum:</b> aaldaco@iastate.edu</h3>
+              <h3 className="text-lg text-gray-700"><b>Dr. Ali Jannesari:</b> jannesar@iastate.edu</h3>
+            </div>
+          </div>
       </div>
     );
   }
@@ -878,6 +899,8 @@ const App = () => {
     return <AccountCreationPage />
   } else if (page === "Cart") {
     return <CartPage />
+  } else if (page === "About") {
+    return <AboutPage />
   } else {
     return <HomePage />
   }

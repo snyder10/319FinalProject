@@ -22,6 +22,9 @@ app.get("/products", async (req, res) => {
     await client.connect();
     console.log("Node connected successfully to GET MongoDB");
     let query = {};
+    if (req.query.sub && JSON.parse(req.query.sub).length !== 0) {
+        query["sub_categories"] = { $all: JSON.parse(req.query.sub) };
+    }
     if (req.query.names) {
         query["name"] = { $in: JSON.parse(req.query.names) }
         console.log(query)
