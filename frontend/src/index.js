@@ -36,11 +36,17 @@ const App = () => {
   const [activeButtons, setActiveButtons] = useState({})
   const [user, setUser] = useState({})
   const [cart, setCart] = useState({});
+  const [currentProduct, setCurrentProduct] = useState({});
 
   const fetchProducts = async (extension) => {
     const response = await fetch(`http://localhost:8081/products${extension}`);
     const data = await response.json();
     return data;
+  }
+
+  function displayProductPage(product) {
+    setCurrentProduct(product);
+    changePage("Product")
   }
 
   const addCategory = (event) => {
@@ -69,7 +75,7 @@ const App = () => {
     setLoadPage(true);
   }
 
-  function RenderProducts({productArray}) {
+  function RenderProducts({ productArray }) {
     function submitUpdate(event) {
       event.preventDefault();
       const formData = new FormData(event.target);
@@ -177,7 +183,7 @@ const App = () => {
       <section id="Projects" className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
         {productArray.map((product, index) => (
           <div key={index} className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
-            <img src={product.image}
+            <img onClick={() => displayProductPage(product)} src={product.image}
               alt="Product" className="h-72 w-72 object-cover rounded-t-xl" />
             <div className="px-4 py-3 w-72">
               <p className="text-lg font-bold text-black truncate block capitalize">{product.name}</p>
@@ -380,10 +386,10 @@ const App = () => {
       <Navbar />
       <FilterSelect />
       <div className="flex grid grid-cols-1 items-center text-center">
-      <p className="justify-items-center justify-center content-center text-center text-3xl font-bold text-black capitalize mt-20">On Sale</p>
-      <RenderProducts productArray={products} />
-      <p className="justify-items-center justify-center content-center text-center text-3xl font-bold text-black capitalize mt-20">Trending</p>
-      <RenderProducts productArray={trending} />
+        <p className="justify-items-center justify-center content-center text-center text-3xl font-bold text-black capitalize mt-20">On Sale</p>
+        <RenderProducts productArray={products} />
+        <p className="justify-items-center justify-center content-center text-center text-3xl font-bold text-black capitalize mt-20">Trending</p>
+        <RenderProducts productArray={trending} />
       </div>
       {console.log(trending)};
     </div>);
@@ -450,7 +456,7 @@ const App = () => {
                       Invalid username or password. Please try again
                     </p>
                   }
-                  <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Login</button>
+                  <button type="submit" className="w-full text-black dark:text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Login</button>
                   <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                     Don’t have an account yet? <button onClick={() => changePage("Create Account")} className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign Up</button>
                   </p>
@@ -633,7 +639,7 @@ const App = () => {
                       This username is already taken. Please try again.
                     </p>
                   }
-                  <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Create Account</button>
+                  <button type="submit" className="w-full text-black dark:text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Create Account</button>
                   <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                     Already have an account? <button onClick={() => changePage("Login")} className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign In</button>
                   </p>
@@ -845,7 +851,7 @@ const App = () => {
                     </div>
                   </div>
 
-                  <button type="submit" className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Pay Now</button>
+                  <button type="submit" className="flex w-full text-black dark:text-white items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Pay Now</button>
                 </form>
               </div>
           }
@@ -869,18 +875,47 @@ const App = () => {
       <div>
         <Navbar />
         <div className="flex flex-col justify-center items-center">
-            <div className="ml-5 p-10 xl:basis-4/5 flex flex-col justify-center items-center">
-              <h2 className="text-3xl font-extrabold tracking-tight text-gray-600 category-title">Course Information</h2>
-              <h3 className="text-lg text-gray-700"><b>Course:</b> SE/ComS319 Construction of User Interfaces, Spring 2024</h3>
-              <h3 className="text-lg text-gray-700"><b>Date:</b> May 6, 2024</h3>
-              <h2 className="text-3xl font-extrabold tracking-tight text-gray-600 category-title mt-10">Students</h2>
-              <h3 className="text-lg text-gray-700"><b>Andrew Snyder:</b> snyder10@iastate.edu</h3>
-              <h3 className="text-lg text-gray-700"><b>Eli Ripperda:</b> ripperda@iastate.edu</h3>
-              <h2 className="text-3xl font-extrabold tracking-tight text-gray-600 category-title mt-10">Professors</h2>
-              <h3 className="text-lg text-gray-700"><b>Dr. Abraham N. Aldaco Gastelum:</b> aaldaco@iastate.edu</h3>
-              <h3 className="text-lg text-gray-700"><b>Dr. Ali Jannesari:</b> jannesar@iastate.edu</h3>
-            </div>
+          <div className="ml-5 p-10 xl:basis-4/5 flex flex-col justify-center items-center">
+            <h2 className="text-3xl font-extrabold tracking-tight text-gray-600 category-title">Course Information</h2>
+            <h3 className="text-lg text-gray-700"><b>Course:</b> SE/ComS319 Construction of User Interfaces, Spring 2024</h3>
+            <h3 className="text-lg text-gray-700"><b>Date:</b> May 6, 2024</h3>
+            <h2 className="text-3xl font-extrabold tracking-tight text-gray-600 category-title mt-10">Students</h2>
+            <h3 className="text-lg text-gray-700"><b>Andrew Snyder:</b> snyder10@iastate.edu</h3>
+            <h3 className="text-lg text-gray-700"><b>Eli Ripperda:</b> ripperda@iastate.edu</h3>
+            <h2 className="text-3xl font-extrabold tracking-tight text-gray-600 category-title mt-10">Professors</h2>
+            <h3 className="text-lg text-gray-700"><b>Dr. Abraham N. Aldaco Gastelum:</b> aaldaco@iastate.edu</h3>
+            <h3 className="text-lg text-gray-700"><b>Dr. Ali Jannesari:</b> jannesar@iastate.edu</h3>
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  const ProductPage = () => {
+    let rating = "";
+    for (let i = 0; i < currentProduct.rating; i++) {
+      rating += "★";
+    }
+
+    for (let i = 0; i < 5 - currentProduct.rating; i++) {
+      rating += "☆";
+    }
+    return (
+      <div className="w-full">
+        <Navbar />
+        <section id="Projects" className="flex w-fit h-full mx-auto grid grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
+            <img src={currentProduct.image}
+              alt="Product" className="flex-1 h-96 w-96 object-cover float-left rounded-xl" />
+          <div className="px-4 py-3 w-96 flex-1 justify-items-center justify-center text-center rounded-xl bg-white">
+            <p className="text-5xl font-bold text-sky-800 block capitalize">{currentProduct.name}</p>
+            <div className="flex items-center text-center justify-items-center justify-center">
+              <p className="text-lg font-semibold text-black cursor-auto my-3">${currentProduct.price}</p>
+              <p className={currentProduct.price !== currentProduct["original price"] ? "line-through text-sm text-gray-600 cursor-auto ml-2" : "hidden"}>${currentProduct["original price"]}</p>
+            </div>
+            <p className="text-lg font-semibold text-black cursor-auto my-3">Inventory: {currentProduct.inventory}</p>
+            <p className="text-lg font-semibold text-black cursor-auto my-3"> {rating}</p>
+          </div>
+        </section>
       </div>
     );
   }
@@ -901,6 +936,8 @@ const App = () => {
     return <CartPage />
   } else if (page === "About") {
     return <AboutPage />
+  } else if (page === "Product") {
+    return <ProductPage />
   } else {
     return <HomePage />
   }
