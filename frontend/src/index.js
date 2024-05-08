@@ -188,9 +188,9 @@ const App = () => {
             <div className="px-4 py-3 w-72">
               <p className="text-lg font-bold text-black truncate block capitalize">{product.name}</p>
               <div className="flex items-center">
-                <p className="text-lg font-semibold text-black cursor-auto my-3">${product.price}</p>
+                <p className="text-lg font-semibold text-black cursor-auto my-3">${product.price.toFixed(2)}</p>
                 <del>
-                  <p className={product.price !== product["original price"] ? "text-sm text-gray-600 cursor-auto ml-2" : "hidden"}>${product["original price"]}</p>
+                  <p className={product.price !== product["original price"] ? "text-sm text-gray-600 cursor-auto ml-2" : "hidden"}>${product["original price"].toFixed(2)}</p>
                 </del>
               </div>
               <p className="text-lg font-semibold text-black cursor-auto my-3">Inventory: {product.inventory}</p>
@@ -556,7 +556,7 @@ const App = () => {
         "password": formData.get("password"),
         "address": formData.get("address"),
         "zip": formData.get("zip"),
-        "card": formData.get("credit card number"),
+        "card": formData.get("card-number-input"),
         "email": formData.get("email"),
         "phone": formData.get("phone"),
         "city": formData.get("city"),
@@ -636,7 +636,7 @@ const App = () => {
                   {
                     invalidUsername &&
                     <p className="text-sm font-light text-red-500">
-                      This username is already taken. Please try again.
+                      This email is already taken. Please try again.
                     </p>
                   }
                   <button type="submit" className="w-full text-black dark:text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Create Account</button>
@@ -748,9 +748,9 @@ const App = () => {
                   <p className="text-lg font-bold text-black truncate capitalize">{product.name}</p>
                   <img src={product.image} alt="Product" className="h-16 w-16 object-cover rounded-t-xl" />
                   <div className="flex w-full items-center float-right">
-                    <p className="text-lg font-semibold text-black cursor-auto my-3">${product.price}</p>
+                    <p className="text-lg font-semibold text-black cursor-auto my-3">${product.price.toFixed(2)}</p>
                     <del>
-                      <p className={product.price !== product["original price"] ? "text-sm text-gray-600 cursor-auto ml-2" : "hidden"}>${product["original price"]}</p>
+                      <p className={product.price !== product["original price"] ? "text-sm text-gray-600 cursor-auto ml-2" : "hidden"}>${product["original price"].toFixed(2)}</p>
                     </del>
                   </div>
                   <div className="flex justify-between items-center w-full">
@@ -909,8 +909,8 @@ const App = () => {
           <div className="px-4 py-3 w-96 flex-1 justify-items-center justify-center text-center rounded-xl bg-white">
             <p className="text-5xl font-bold text-sky-800 block capitalize">{currentProduct.name}</p>
             <div className="flex items-center text-center justify-items-center justify-center">
-              <p className="text-lg font-semibold text-black cursor-auto my-3">${currentProduct.price}</p>
-              <p className={currentProduct.price !== currentProduct["original price"] ? "line-through text-sm text-gray-600 cursor-auto ml-2" : "hidden"}>${currentProduct["original price"]}</p>
+              <p className="text-lg font-semibold text-black cursor-auto my-3">${currentProduct.price.toFixed(2)}</p>
+              <p className={currentProduct.price !== currentProduct["original price"] ? "line-through text-sm text-gray-600 cursor-auto ml-2" : "hidden"}>${currentProduct["original price"].toFixed(2)}</p>
             </div>
             <p className="text-lg font-semibold text-black cursor-auto my-3">Inventory: {currentProduct.inventory}</p>
             <p className="text-lg font-semibold text-black cursor-auto my-3"> {rating}</p>
